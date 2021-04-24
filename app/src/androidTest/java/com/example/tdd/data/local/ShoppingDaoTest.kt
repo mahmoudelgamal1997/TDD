@@ -60,4 +60,18 @@ class ShoppingDaoTest {
         assertThat(allShoppingItem).doesNotContain(shoppingItem)
     }
 
+    @Test
+    fun observeTotalPrice() = runBlockingTest {
+        var shoppingItem1 = ShoppingItem("car",120F,10,"sss",1)
+        var shoppingItem2 = ShoppingItem("car",10F,20,"sss",2)
+        var shoppingItem3 = ShoppingItem("car",12F,30,"sss",3)
+
+        dao.insertShoppingItem(shoppingItem1)
+        dao.insertShoppingItem(shoppingItem2)
+        dao.insertShoppingItem(shoppingItem3)
+
+        val totalPrice = dao.ObserverTotalPrice().getOrAwaitValue()
+        assertThat(totalPrice).isEqualTo(120F*10+ 10F*20 +12F*30)
+
+    }
 }
