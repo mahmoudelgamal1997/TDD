@@ -2,10 +2,13 @@ package com.example.tdd.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.tdd.data.local.ShoppingDao
 import com.example.tdd.other.Constants.BASE_URL
 import com.example.tdd.other.Constants.DATABASE_NAME
 import com.example.tdd.data.local.ShoppingItemDataBase
 import com.example.tdd.data.remote.PixbayAPI
+import com.example.tdd.repositories.DefaultShoppingRepository
+import com.example.tdd.repositories.ShoppingRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,20 +24,26 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideShoppingItemDataBase(
+    fun provideShoppingItemDatabase(
         @ApplicationContext context: Context
-    ) = Room.databaseBuilder(context,ShoppingItemDataBase::class.java,DATABASE_NAME).build()
+    ) = Room.databaseBuilder(context, ShoppingItemDataBase::class.java, DATABASE_NAME).build()
+
+    @Singleton
+    @Provides
+    fun provideDefaultShoppingRepository(
+        dao: ShoppingDao,
+        api: PixbayAPI
+    ) = DefaultShoppingRepository(dao, api) as ShoppingRepository
 
     @Singleton
     @Provides
     fun provideShoppingDao(
-        dataBase: ShoppingItemDataBase
-    )=dataBase.shoppingDao()
-
+        database: ShoppingItemDataBase
+    ) = database.shoppingDao()
 
     @Singleton
     @Provides
-    fun providePixAPI():PixbayAPI{
+    fun providePixabayApi(): PixbayAPI {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BASE_URL)

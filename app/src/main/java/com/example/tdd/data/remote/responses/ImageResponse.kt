@@ -1,9 +1,10 @@
 package com.example.tdd.data.remote.responses
 
-import ImageResult
+import  com.example.tdd.data.remote.responses.ImageResult
 
-data class ImageResponse (
-    val hits:List<ImageResult>,
-    val total:Int,
-    val totalHints:Int
-        )
+
+data class ImageResponse(
+    private var hits: List<ImageResult>,
+    private  var total: Int,
+    private  var totalHits: Int
+)

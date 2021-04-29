@@ -1,14 +1,12 @@
-package com.example.repositories
+package com.example.tdd.repositories
 
-import android.media.Image
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.tdd.data.local.ShoppingItem
 import com.example.tdd.data.remote.responses.ImageResponse
 import com.example.tdd.other.Resource
-import com.example.tdd.repositories.ShoppingRepository
 
-class FakeShoppingRepository():ShoppingRepository {
+class FakeShoppingRepository:ShoppingRepository {
 
 
     private val shoppingItems= mutableListOf<ShoppingItem>()
@@ -32,10 +30,12 @@ class FakeShoppingRepository():ShoppingRepository {
 
     override suspend fun insertShoppingItem(shoppingItem: ShoppingItem) {
             shoppingItems.add(shoppingItem)
+            refreshlivedata()
     }
 
     override suspend fun deleteShoppingItem(shoppingItem: ShoppingItem) {
         shoppingItems.remove(shoppingItem)
+        refreshlivedata()
     }
 
     override fun observeAllItems(): LiveData<List<ShoppingItem>> {

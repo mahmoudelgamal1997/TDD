@@ -6,14 +6,14 @@ import com.example.tdd.data.local.ShoppingItem
 import com.example.tdd.data.remote.PixbayAPI
 import com.example.tdd.data.remote.responses.ImageResponse
 import com.example.tdd.other.Resource
-import retrofit2.Response
 import java.lang.Exception
 import javax.inject.Inject
 
 class DefaultShoppingRepository @Inject constructor(
-    val dao:ShoppingDao,
-    val pixbayAPI: PixbayAPI
+  private  val dao:ShoppingDao,
+  private  val pixbayAPI: PixbayAPI
         ):ShoppingRepository{
+
     override suspend fun insertShoppingItem(shoppingItem: ShoppingItem) {
         dao.insertShoppingItem(shoppingItem)
     }
@@ -45,6 +45,4 @@ class DefaultShoppingRepository @Inject constructor(
               Resource.error("an error has occured ",null)
           }
     }
-
-
 }
